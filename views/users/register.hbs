@@ -1,0 +1,22 @@
+<div class="forms mx-auto">
+    <h2 class="text-center mt-4">Register</h2>
+    {{> messages }}
+    <form action="/users/register" method="POST">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password">
+        </div>
+        <div class="form-group">
+            <label for="repeat-password">Repeat password</label>
+            <input type="password" class="form-control" name="repeatPassword" id="repeat-password">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a href="/users/login">Login</a>
+        </div>
+    </form>
+</div>
