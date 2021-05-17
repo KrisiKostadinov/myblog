@@ -1,14 +1,14 @@
 module.exports = {
-    authSuccess(req, res, next) {
+    auth(req, res, next) {
         if(req.isAuthenticated()) {
             return next();
         }
 
-        req.flash('error_msg', 'Not logged in');
+        req.flash('error_msg', 'Тази страница е само за логнати потребители.');
         res.redirect('/users/login');
     },
 
-    guestSuccess(req, res, next) {
+    guest(req, res, next) {
         if(!req.isAuthenticated()) {
             return next();
         }
@@ -16,10 +16,11 @@ module.exports = {
         res.redirect('/');
     },
     
-    isAuth(req, res, next) {
+    setIsLoggedIn(req, res, next) {
         try {
             if(req.isAuthenticated()) {
                 res.locals.isLoggedIn = true;
+                res.locals.username = req.user.username;
             }
         } catch(err) {
             console.log(err);

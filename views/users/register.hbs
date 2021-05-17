@@ -3,20 +3,24 @@
     {{> messages }}
     <form action="/users/register" method="POST">
         <div class="form-group">
-            <label for="email">Email address</label>
+            <label for="username">Потребителско име</label>
+            <input type="text" class="form-control" name="username" id="username">
+        </div>
+        <div class="form-group">
+            <label for="email">Имейл адрес</label>
             <input type="email" class="form-control" name="email" id="email">
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Парола</label>
             <input type="password" class="form-control" name="password" id="password">
         </div>
         <div class="form-group">
-            <label for="repeat-password">Repeat password</label>
+            <label for="repeat-password">Повторете паролата</label>
             <input type="password" class="form-control" name="repeatPassword" id="repeat-password">
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Register</button>
-            <a href="/users/login">Login</a>
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+            <a href="/users/login">Вход</a>
         </div>
     </form>
 </div>

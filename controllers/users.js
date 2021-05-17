@@ -15,18 +15,19 @@ module.exports = {
         
         User.create({
             email: reqUser.email,
+            username: reqUser.username,
             password: hash
         }).then((user) => {
             req.logIn(user, (err) => {
                 if(err) {
                     res.render('users/register', { error });
                 } else {
-                    req.flash('success_msg', 'Successful registered!');
+                    req.flash('success_msg', 'Успешно направена регистрация!');
                     res.redirect('/');
                 }
             });
         }).catch((err) => {
-            res.render('users/register', { error_msg: 'This email exsits!' });
+            res.render('users/register', { error_msg: 'Този имейл вече съществува!' });
         });
     },
     
@@ -44,7 +45,7 @@ module.exports = {
 
     logout(req, res) {
         req.logout();
-        req.flash('success_msg', 'Successful log out');
+        req.flash('success_msg', 'Излизането беше успешно!');
         res.redirect('login');
     }
 }
