@@ -1,10 +1,11 @@
 const User = require("../models/User");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const { getAllUsers } = require("../services/admin");
 
 module.exports = {
     getRegister(req, res) {
-        res.render('users/register');
+        res.render('users/register', { title: 'Регистрация' });
     },
     
     async postRegister(req, res) {
@@ -15,24 +16,30 @@ module.exports = {
         
         User.create({
             email: reqUser.email,
-            username: reqUser.username,
+            username: reqUser.firstName + ' ' + reqUser.lastName,
             password: hash
         }).then((user) => {
             req.logIn(user, (err) => {
                 if(err) {
-                    res.render('users/register', { error });
+                    res.render('users/register', { title: 'Регистрация', error });
                 } else {
                     req.flash('success_msg', 'Успешно направена регистрация!');
                     res.redirect('/');
                 }
             });
         }).catch((err) => {
-            res.render('users/register', { error_msg: 'Този имейл вече съществува!' });
+            res.render('users/register', { title: 'Регистрация', error_msg: 'Този имейл вече съществува!' });
         });
     },
     
     getLogin(req, res) {
-        res.render('users/login');
+        res.render('users/login', { title: 'Вход' });
+    },
+
+    async getAdministration(req, res) {
+        const users = await getAllUsers();
+        console.log(users);
+        res.render('users/administration', { users, title: 'Потребители' });
     },
     
     postLogin(req, res, next) {

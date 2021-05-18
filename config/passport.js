@@ -3,21 +3,21 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-module.exports = function(passport) {
+module.exports = function (passport) {
   passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
 
     User.findOne({ email: email }).then(user => {
-      if(!user) {
+      if (!user) {
         return done(null, false, { message: 'Този имейл или парола са грешни' });
       }
-      
+
       bcrypt.compare(password, user.password, (err, isMatch) => {
-        if(err) {
+        if (err) {
           console.log(err);
           return;
         }
 
-        if(isMatch) {
+        if (isMatch) {
           return done(null, user);
         } else {
           return done(null, false, { message: 'Този имейл или парола са грешни' });
@@ -31,9 +31,9 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser((id, done) => {
-      User.findById(id).then(user => {
-          if (!user) return done(null, false);
-          return done(null, user);        
-      });
+    User.findById(id).then(user => {
+      if (!user) return done(null, false);
+      return done(null, user);
+    });
   });
 }

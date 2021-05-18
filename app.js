@@ -21,7 +21,10 @@ app.use(methodOverride('_method'));
 
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+        is: function (first, second, options) { return first === second ? options.fn(this) : options.inverse(this); }
+    }
 }));
 
 app.use(session({

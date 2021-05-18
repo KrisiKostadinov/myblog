@@ -15,12 +15,20 @@ module.exports = {
 
         res.redirect('/');
     },
+
+    admin(req, res, next) {
+        if(req.user?.role === 'admin') {
+            return next();
+        }
+
+        res.redirect('/');
+    },
     
     setIsLoggedIn(req, res, next) {
         try {
             if(req.isAuthenticated()) {
+                res.locals = req.user;
                 res.locals.isLoggedIn = true;
-                res.locals.username = req.user.username;
             }
         } catch(err) {
             console.log(err);

@@ -1,26 +1,44 @@
-<div class="forms mx-auto">
-    <h2 class="text-center mt-4">Register</h2>
-    {{> messages }}
-    <form action="/users/register" method="POST">
-        <div class="form-group">
-            <label for="username">Потребителско име</label>
-            <input type="text" class="form-control" name="username" id="username">
+<h4 class="text-center mt-4">Добре дошли!</h4>
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <div class="row">
+            <img class="col-lg-5 d-none d-lg-block" src="/public/images/js-bg.png" alt="" />
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Регистрация</h1>
+                    </div>
+                    <form class="user" action="/users/register" method="POST">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" name="firstName" class="form-control form-control-user" placeholder="Името Ви...">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="lastName" class="form-control form-control-user" placeholder="Фамилия...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control form-control-user" placeholder="Имейл адрес...">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" name="password" class="form-control form-control-user" placeholder="Парола">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="password" name="confirmPassword" class="form-control form-control-user"
+                                    placeholder="Повторете паролата...">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Създай профил
+                        </button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="/users/login">Вече имаш профил</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="email">Имейл адрес</label>
-            <input type="email" class="form-control" name="email" id="email">
-        </div>
-        <div class="form-group">
-            <label for="password">Парола</label>
-            <input type="password" class="form-control" name="password" id="password">
-        </div>
-        <div class="form-group">
-            <label for="repeat-password">Повторете паролата</label>
-            <input type="password" class="form-control" name="repeatPassword" id="repeat-password">
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Регистрация</button>
-            <a href="/users/login">Вход</a>
-        </div>
-    </form>
+    </div>
 </div>

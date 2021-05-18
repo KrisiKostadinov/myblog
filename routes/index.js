@@ -3,11 +3,11 @@ const restrictedPages = require('../config/auth');
 const router = express.Router();
 
 router.get('/', restrictedPages.setIsLoggedIn, (req, res) => {
-    res.render('index');
+    res.render('index', { title: 'Начало' });
 });
 
 router.get('/about', restrictedPages.setIsLoggedIn, (req, res) => {
-    res.render('about');
+    res.render('about', { title: 'За мен' });
 });
 
 module.exports = router;

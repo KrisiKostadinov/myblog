@@ -10,6 +10,10 @@ const UserSchema = new Schema({
         type: Schema.Types.String,
         required: true,
     },
+    role: {
+        type: Schema.Types.String,
+        default: 'user'
+    },
     password: {
         type: Schema.Types.String,
         required: true,
