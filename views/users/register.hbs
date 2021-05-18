@@ -7,22 +7,27 @@
                 <div class="p-5">
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Регистрация</h1>
+                        {{> messages }}
                     </div>
                     <form class="user" action="/users/register" method="POST">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" name="firstName" class="form-control form-control-user" placeholder="Името Ви...">
+                                <input type="text" name="firstName" class="form-control form-control-user"
+                                    placeholder="Името Ви...">
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" name="lastName" class="form-control form-control-user" placeholder="Фамилия...">
+                                <input type="text" name="lastName" class="form-control form-control-user"
+                                    placeholder="Фамилия...">
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control form-control-user" placeholder="Имейл адрес...">
+                            <input type="email" name="email" class="form-control form-control-user"
+                                placeholder="Имейл адрес...">
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="password" name="password" class="form-control form-control-user" placeholder="Парола">
+                                <input type="password" name="password" class="form-control form-control-user"
+                                    placeholder="Парола">
                             </div>
                             <div class="col-sm-6">
                                 <input type="password" name="confirmPassword" class="form-control form-control-user"

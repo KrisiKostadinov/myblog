@@ -26,7 +26,27 @@ app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
     helpers: {
-        is: function (first, second, options) { return first === second ? options.fn(this) : options.inverse(this); }
+        is: function (first, second, options) {
+            return first === second ? options.fn(this) : options.inverse(this);
+        },
+        inc: function (number) {
+            console.log(number);
+            return parseInt(number) + 1;
+        },
+        dec: function (number) {
+            console.log(number);
+            return parseInt(number) - 1;
+        },
+        times: function (n, block) {
+            var accum = '';
+            for (var i = 0; i < n; ++i)
+                accum += block.fn(i);
+            return accum;
+        },
+        isAsNum: function (first, second, options) {
+            console.log(' - ' + first, second);
+            return Number(first) === Number(second) ? options.fn(Number(this)) : options.inverse(Number(this));
+        },
     }
 }));
 

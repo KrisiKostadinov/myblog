@@ -21,5 +21,18 @@
                 </tbody>
             </table>
         </div>
+        <ul class="pagination">
+            <li class="paginate_button page-item previous {{#is page 0}} disabled {{/is}}">
+                <a href="/administration/users?page={{dec page}}" class="page-link">Previous</a>
+            </li>
+            {{#times numberOfDocuments }}
+            <li class="paginate_button page-item">
+                <a href="#" class="page-link">{{inc this }}</a>
+            </li>
+            {{/times}}
+            <li class="paginate_button page-item next {{#if isLast}} disabled {{/if}}">
+                <a href="/administration/users?page={{inc page}}" class="page-link">Next</a>
+            </li>
+        </ul>
     </div>
 </div>
