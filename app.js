@@ -1,14 +1,17 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const config = require('dotenv').config();
-const db = require('./config/db');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
+
+require('dotenv').config();
+require('./config/db');
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const administrationRouter = require('./routes/administration');
 
 require('./config/passport')(passport);
 
@@ -49,5 +52,6 @@ app.use("/public", express.static(__dirname + '/public'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/administration', administrationRouter);
 
 app.listen(process.env.PORT, () => console.log('Server listening on port: ' + process.env.PORT));

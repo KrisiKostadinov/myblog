@@ -5,7 +5,6 @@ const restrictedPages = require('../config/auth');
 
 router.get('/register', restrictedPages.guest, controllers.usersController.getRegister);
 router.get('/login', restrictedPages.guest, controllers.usersController.getLogin);
-router.get('/administration', restrictedPages.setIsLoggedIn, restrictedPages.admin, controllers.usersController.getAdministration);
 
 router.post('/register', restrictedPages.guest, controllers.usersController.postRegister);
 router.post('/login', restrictedPages.guest, controllers.usersController.postLogin);
