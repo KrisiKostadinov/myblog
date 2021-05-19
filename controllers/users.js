@@ -2,6 +2,7 @@ const User = require("../models/User");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { getAllPostsByUserId } = require("../services/post");
+const { getUserById } = require("../services/user");
 
 module.exports = {
     getRegister(req, res) {
@@ -37,12 +38,15 @@ module.exports = {
     },
 
     async getAccount(req, res) {
-        const posts = await getAllPostsByUserId(req.user._id);
+        const id = req.params.id ? req.params.id : req.user._id;
+        const posts = await getAllPostsByUserId(id);
+        const user = await getUserById(id);
+
         posts.forEach(post => {
             post.createdOn = new Date(post.createdOn).toLocaleDateString();
         });
 
-        res.render('users/account', { title: req.user.username, posts });
+        res.render('users/account', { title: req.user ? req.user.username : user.username, posts });
     },
 
     postLogin(req, res, next) {

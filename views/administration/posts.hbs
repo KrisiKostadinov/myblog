@@ -1,0 +1,42 @@
+<div class="w-100 card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Потребители</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Заглавие</th>
+                        <th>Подзаглавие</th>
+                        <th>Автор</th>
+                        <th>Публикувано на</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each posts }}
+                    <tr>
+                        <td>{{ this.title }}</td>
+                        <td>{{ this.subtitle }}</td>
+                        <td>{{ this.author.username }}</td>
+                        <td>{{ this.createdOn }}</td>
+                    </tr>
+                    {{/each }}
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+            <li class="paginate_button page-item previous {{#is page 0}} disabled {{/is}}">
+                <a href="/administration/posts?page={{dec page}}" class="page-link">Previous</a>
+            </li>
+            {{#times numberOfDocuments }}
+            <li class="paginate_button page-item">
+                <a href="#" class="page-link">{{inc this }}</a>
+            </li>
+            {{/times}}
+            <li class="paginate_button page-item next {{#if isLast}} disabled {{/if}}">
+                <a href="/administration/posts?page={{inc page}}" class="page-link">Next</a>
+            </li>
+        </ul>
+    </div>
+</div>

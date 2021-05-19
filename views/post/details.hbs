@@ -3,7 +3,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <h1 class="py-4">{{ post.title }}</h1>
             <span class="mr-4">Публикувано на: {{ post.createdOn }}</span>
-            <span>Автор: {{ post.author.username }}</span>
+            <span><a href="/users/account/{{post.author._id}}">Автор: {{ post.author.username }}</a></span>
             <img class="w-100 mt-2 rounded" src="{{post.imageUrl}}" alt="">
             {{{ post.content }}}
             {{#is role 'admin' }}

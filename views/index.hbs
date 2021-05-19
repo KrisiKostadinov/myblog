@@ -3,13 +3,13 @@
     {{#each posts }}
     <div class="col-lg-8 col-md-10 mx-auto mt-5">
         {{> searchForm }}
-        <div class="post-preview">
+        <div class="post-preview mt-4">
             <a href="/post/details/{{this._id}}">
                 <h2 class="post-title">{{ this.title }}</h2>
                 <h3 class="post-subtitle">{{ this.subtitle }}</h3>
             </a>
             <span>Публикувано на: {{ this.createdOn }}</span>
-            <span>Автор: {{ this.author.username }}</span>
+            <span><a href="/users/account/{{this.author._id}}">Автор: {{ this.author.username }}</a></span>
         </div>
     </div>
     {{/each}}
