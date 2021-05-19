@@ -1,2 +1,16 @@
 <h2>Index</h2>
 {{> messages }}
+<div class="row">
+    {{#each posts }}
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-preview">
+            <a href="{{this.title}}">
+                <h2 class="post-title">{{ this.title }}</h2>
+                <h3 class="post-subtitle">{{ this.subtitle }}</h3>
+            </a>
+            <span>Публикувано на: {{ this.createdOn }}</span>
+            <span>Автор: {{ this.author.username }}</span>
+        </div>
+    </div>
+    {{/each}}
+</div>

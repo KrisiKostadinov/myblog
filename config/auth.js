@@ -29,6 +29,7 @@ module.exports = {
             if(req.isAuthenticated()) {
                 res.locals = req.user;
                 res.locals.isLoggedIn = true;
+                console.log(req.user);
             }
         } catch(err) {
             console.log(err);

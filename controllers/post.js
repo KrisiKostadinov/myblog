@@ -19,7 +19,7 @@ module.exports = {
                 imageUrl = uploadResponse.secure_url;
             }
 
-            await post.createPost({ title, subtitle, content, imageUrl });
+            await post.createPost({ title, subtitle, content, imageUrl, author: req.user._id });
             res.redirect('/');
         } catch (err) {
             console.error(err);
