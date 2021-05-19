@@ -1,0 +1,59 @@
+<h4 class="text-center mt-4">Създаване на нова публикация</h4>
+<div class="row justify-content-center">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="p-2">
+                    {{> messages }}
+                    <form class="user" action="/post/create" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                <label for="title">* Заглавие на статията</label>
+                                <input required accept="png" type="text" name="title"
+                                    class="form-control form-control-user" id="title" value="{{titlePost}}"
+                                    placeholder="Заглавие на статията...">
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                <label for="subtitle">Подзаглавие на статията</label>
+                                <input type="text" name="subtitle" class="form-control form-control-user"
+                                    value="{{subtitle}}" id="subtitle" placeholder="Подзаглавие на статията...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Снимка</label>
+                            <input type="file" onchange="upload(event)" name="image" class="form-control" id="image">
+                            <img class="w-100" style="display: none;" src="{{image}}" id="view" alt="">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">* Съдържание на статията</label>
+                            <textarea class="w-100 form-control" name="content" placeholder="Съдържание на статията..."
+                                rows="30" id="contnet">{{ content }}</textarea>
+                        </div>
+                        <button onclick="onSubmit(event)" type="submit" class="btn btn-primary btn-user btn-block mt-2">
+                            Създаване
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    tinymce.init({
+        selector: 'textarea'
+    });
+
+    function upload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('view').style.display = 'block';
+            document.getElementById('view').setAttribute('src', URL.createObjectURL(file));
+        } else {
+            document.getElementById('view').style.display = 'none';
+            document.getElementById('view').setAttribute('src', '');
+        }
+    }
+</script>

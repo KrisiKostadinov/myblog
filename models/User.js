@@ -17,7 +17,13 @@ const UserSchema = new Schema({
     password: {
         type: Schema.Types.String,
         required: true,
-    }
+    },
+    posts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post'
+        }
+    ]
 });
 
 const User = model('User', UserSchema);

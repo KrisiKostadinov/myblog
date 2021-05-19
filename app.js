@@ -5,6 +5,8 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
+const fileUpload = require('express-fileupload');
+const cloudinary = require('cloudinary');
 
 require('dotenv').config();
 require('./config/db');
@@ -12,6 +14,7 @@ require('./config/db');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const administrationRouter = require('./routes/administration');
+const postRouter = require('./routes/post');
 
 require('./config/passport')(passport);
 
@@ -21,6 +24,17 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(methodOverride('_method'));
+
+app.use(require("body-parser").json());
+app.use(fileUpload({
+    useTempFiles: true,
+}));
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
@@ -73,5 +87,6 @@ app.use("/public", express.static(__dirname + '/public'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/administration', administrationRouter);
+app.use('/post', postRouter);
 
 app.listen(process.env.PORT, () => console.log('Server listening on port: ' + process.env.PORT));

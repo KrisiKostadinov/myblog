@@ -15,6 +15,9 @@
         {{#if isLoggedIn }}
         {{#is role 'admin' }}
         <li class="nav-item">
+          <a href="/post/create" class="nav-link">Създаване</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/administration/users">Администрация <span class="sr-only"></span></a>
         </li>
         {{/is }}
