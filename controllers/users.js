@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const { getAllPostsByUserId } = require("../services/post");
 
 module.exports = {
     getRegister(req, res) {
@@ -33,6 +34,15 @@ module.exports = {
 
     getLogin(req, res) {
         res.render('users/login', { title: 'Вход' });
+    },
+
+    async getAccount(req, res) {
+        const posts = await getAllPostsByUserId(req.user._id);
+        posts.forEach(post => {
+            post.createdOn = new Date(post.createdOn).toLocaleDateString();
+        });
+
+        res.render('users/account', { title: req.user.username, posts });
     },
 
     postLogin(req, res, next) {
