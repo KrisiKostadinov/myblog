@@ -6,6 +6,12 @@ module.exports = {
         res.render('post/create', { title: 'Създаване на статия' });
     },
 
+    async getPost(req, res) {
+        const postDb = await post.getPost(req.params.id);
+        postDb.createdOn = new Date(postDb.createdOn).toLocaleDateString();
+        res.render('post/details', { title: postDb.title, post: postDb });
+    },
+
     async postCreatePost(req, res) {
         const image = req.files?.image;
         const { title, subtitle, content } = req.body;

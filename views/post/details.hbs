@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto mb-5">
+        <h1 class="py-4">{{ post.title }}</h1>
+        <span class="mr-4">Публикувано на: {{ post.createdOn }}</span>
+        <span>Автор: {{ post.author.username }}</span>
+        <img class="w-100 mt-2 rounded" src="{{post.imageUrl}}" alt="">
+        {{{ post.content }}}
+    </div>
+</div>
