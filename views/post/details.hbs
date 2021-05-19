@@ -1,9 +1,30 @@
-<div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto mb-5">
-        <h1 class="py-4">{{ post.title }}</h1>
-        <span class="mr-4">Публикувано на: {{ post.createdOn }}</span>
-        <span>Автор: {{ post.author.username }}</span>
-        <img class="w-100 mt-2 rounded" src="{{post.imageUrl}}" alt="">
-        {{{ post.content }}}
+<div class="mb-5">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h1 class="py-4">{{ post.title }}</h1>
+            <span class="mr-4">Публикувано на: {{ post.createdOn }}</span>
+            <span>Автор: {{ post.author.username }}</span>
+            <img class="w-100 mt-2 rounded" src="{{post.imageUrl}}" alt="">
+            {{{ post.content }}}
+            {{#is role 'admin' }}
+            <button onclick="deletePost(event)" class="btn btn-danger">Изтрии</button>
+            {{/is}}
+        </div>
     </div>
 </div>
+
+<input type="hidden" id="id" value="{{post._id}}">
+
+<script>
+    function deletePost(event) {
+        if (window.confirm('Сигурен ли си, че искаш да изтриеш статията?')) {
+            const id = document.getElementById('id').value;
+            fetch('/post/delete/' + id + '?_method=DELETE', {
+                method: 'POST'
+            })
+            .then(() => {
+                window.location.pathname = '/';
+            });
+        }
+    }
+</script>

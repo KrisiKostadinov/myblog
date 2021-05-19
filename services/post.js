@@ -17,9 +17,19 @@ const getPost = async (id) => {
     return await Post.findById(id).lean().populate('author');
 }
 
+const deletePost = async (id) => {
+    return await Post.findByIdAndDelete(id);
+}
+
+const searchPosts = async (query) => {
+    return await Post.find({ title: { $regex: query } }).lean().populate('author');
+}
+
 module.exports = {
     createPost,
     getAllPosts,
     getPost,
     getAllPostsByUserId,
+    deletePost,
+    searchPosts,
 }

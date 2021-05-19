@@ -1,9 +1,8 @@
-{{> messages }}
 <div class="row">
-    {{#each posts }}
-    <div class="col-lg-8 col-md-10 mx-auto mt-5">
-        {{> searchForm }}
-        <div class="post-preview">
+    <div class="col-lg-8 col-md-10 mx-auto mt-4">
+    {{> searchForm }}
+        {{#each posts }}
+        <div class="post-preview mt-4">
             <a href="/post/details/{{this._id}}">
                 <h2 class="post-title">{{ this.title }}</h2>
                 <h3 class="post-subtitle">{{ this.subtitle }}</h3>
@@ -11,6 +10,8 @@
             <span>Публикувано на: {{ this.createdOn }}</span>
             <span>Автор: {{ this.author.username }}</span>
         </div>
+        {{else}}
+        <h2 class="text-center">Няма намерени статии!</h2>
+        {{/each}}
     </div>
-    {{/each}}
 </div>

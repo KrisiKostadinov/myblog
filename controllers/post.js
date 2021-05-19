@@ -7,9 +7,25 @@ module.exports = {
     },
 
     async getPost(req, res) {
-        const postDb = await post.getPost(req.params.id);
-        postDb.createdOn = new Date(postDb.createdOn).toLocaleDateString();
-        res.render('post/details', { title: postDb.title, post: postDb });
+        try {
+            const postDb = await post.getPost(req.params.id);
+            if (postDb) {
+                postDb.createdOn = new Date(postDb.createdOn).toLocaleDateString();
+            }
+
+            res.render('post/details', { title: postDb.title, post: postDb });
+        } catch (err) {
+            res.redirect('/404');
+        }
+    },
+
+    async searchPosts(req, res) {
+        const query = req.query.search;
+        const posts = await post.searchPosts(query);
+        posts.forEach(post => {
+            post.createdOn = new Date(post.createdOn).toLocaleDateString();
+        })
+        res.render('post/search', { title: 'Резултат от търсенето', posts, query });
     },
 
     async postCreatePost(req, res) {
@@ -19,9 +35,9 @@ module.exports = {
         try {
             let imageUrl = '';
 
-            if(image) {
+            if (image) {
                 const fileStr = image.tempFilePath;
-                const uploadResponse = await cloudinary.uploader.upload(fileStr, { });
+                const uploadResponse = await cloudinary.uploader.upload(fileStr, {});
                 imageUrl = uploadResponse.secure_url;
             }
 
@@ -38,5 +54,10 @@ module.exports = {
                 image,
             });
         }
+    },
+
+    async deletePost(req, res) {
+        await post.deletePost(req.params.id);
+        res.sendStatus(200);
     }
 }

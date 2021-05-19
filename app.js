@@ -88,5 +88,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/administration', administrationRouter);
 app.use('/post', postRouter);
+app.use('*', (req, res) => res.render('404'));
 
 app.listen(process.env.PORT, () => console.log('Server listening on port: ' + process.env.PORT));
