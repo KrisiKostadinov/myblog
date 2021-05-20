@@ -14,6 +14,10 @@ const UserSchema = new Schema({
         type: Schema.Types.String,
         default: 'user'
     },
+    status: {
+        type: Schema.Types.String,
+        default: 'pending'
+    },
     password: {
         type: Schema.Types.String,
         required: true,

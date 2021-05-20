@@ -1,8 +1,13 @@
-const User = require("../models/User");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const uuid = require('uuid');
+
+const SecretCode = require("../models/SecretCode");
+const User = require("../models/User");
+
+const { getUserById, sendVerificationEmail } = require("../services/user");
 const { getAllPostsByUserId } = require("../services/post");
-const { getUserById } = require("../services/user");
+const { user } = require("../services");
 
 module.exports = {
     getRegister(req, res) {
@@ -24,8 +29,14 @@ module.exports = {
                 if (err) {
                     res.render('users/register', { title: 'Регистрация', error });
                 } else {
-                    req.flash('success_msg', 'Успешно направена регистрация!');
-                    res.redirect('/');
+                    SecretCode.create({ email: user.email, code: uuid.v4() })
+                        .then((secret) => {
+                            sendVerificationEmail(user, secret)
+                                .then(() => {
+                                    req.flash('success_msg', 'Успешно направена регистрация!');
+                                    res.redirect('/');
+                                });
+                        });
                 }
             });
         }).catch((err) => {
@@ -47,6 +58,56 @@ module.exports = {
         });
 
         res.render('users/account', { title: req.user ? req.user.username : user.username, posts });
+    },
+
+    async verify(req, res) {
+        const { userId, secret } = req.params;
+
+        
+        const secretModel = await SecretCode.findOne({ code: secret });
+        const userModel = await User.findById(userId);
+
+        if (!userModel) {
+            return res.render('404');
+        }
+
+        if (userModel.status === 'confirmed') {
+            req.flash('error_msg', 'Вече сте потвърдили имейла си.');
+            return res.redirect('/');
+        }
+
+        let output = {
+            title: 'Успешно потвърден имейл.',
+            confirmed: false,
+            user: userModel
+        }
+
+        if (secretModel) {
+            await User.findByIdAndUpdate(userModel._id, { status: 'confirmed' });
+            await SecretCode.findByIdAndDelete(secretModel._id);
+            output.confirmed = true;
+            req.flash('success_msg', 'Успешно потвърден имейл адрес.');
+            return res.render('users/verify', output);
+        }
+
+        res.render('users/verify', { title: 'Невалиден линк.', confirmed: false });
+    },
+
+    async resendVerification(req, res) {
+        const user = await User.findById(req.user._id);
+        if (user && user.status === 'pending') {
+            const isOldSecret = await SecretCode.findOne({ email: user.email });
+            if (!isOldSecret) {
+                const secret = await SecretCode.create({ email: user.email, code: uuid.v4() });
+                await sendVerificationEmail(user, secret);
+                req.flash('success_msg', 'Успешно изпратен имейл');
+                return res.render('users/verify', { title: 'Успешно изпратен имейл', confirmed: true, user });
+            }
+
+            return res.render('users/verify', { title: 'Невалиден линк.', confirmed: false });
+        }
+
+        res.redirect('/');
     },
 
     postLogin(req, res, next) {

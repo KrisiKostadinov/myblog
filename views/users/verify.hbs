@@ -1,0 +1,14 @@
+{{#if confirmed }}
+{{> messages }}
+<div class="text-center">
+    <a class="btn btn-primary" href="/">Начало</a>
+</div>
+{{else}}
+<div class="text-center">
+    <h4>Невалиден токен</h4>
+</div>
+{{> messages }}
+<form action="/users/verification" method="POST" class="text-center">
+    <button class="btn btn-primary" type="submit">Нов имейл</button>
+</form>
+{{/if}}
