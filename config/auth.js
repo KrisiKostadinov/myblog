@@ -27,9 +27,10 @@ module.exports = {
     setIsLoggedIn(req, res, next) {
         try {
             if(req.isAuthenticated()) {
-                res.locals = req.user;
+                res.locals.username = req.user.username;
+                res.locals.role = req.user.role;
                 res.locals.isLoggedIn = true;
-                console.log(req.user);
+                console.log(req.flash.error);
             }
         } catch(err) {
             console.log(err);

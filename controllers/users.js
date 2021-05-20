@@ -33,7 +33,7 @@ module.exports = {
                         .then((secret) => {
                             sendVerificationEmail(user, secret)
                                 .then(() => {
-                                    req.flash('success_msg', 'Успешно направена регистрация!');
+                                    req.flash('success_msg', 'Успешно направена регистрация! Моля, проверете имейл адреса за да потвърдите профила си.');
                                     res.redirect('/');
                                 });
                         });
@@ -63,7 +63,7 @@ module.exports = {
     async verify(req, res) {
         const { userId, secret } = req.params;
 
-        
+
         const secretModel = await SecretCode.findOne({ code: secret });
         const userModel = await User.findById(userId);
 
@@ -76,20 +76,17 @@ module.exports = {
             return res.redirect('/');
         }
 
-        let output = {
-            title: 'Успешно потвърден имейл.',
-            confirmed: false,
-            user: userModel
-        }
-
         if (secretModel) {
             await User.findByIdAndUpdate(userModel._id, { status: 'confirmed' });
             await SecretCode.findByIdAndDelete(secretModel._id);
-            output.confirmed = true;
-            req.flash('success_msg', 'Успешно потвърден имейл адрес.');
-            return res.render('users/verify', output);
+            return res.render('users/verify', {
+                title: 'Успешно потвърден имейл.',
+                confirmed: true,
+                user: userModel,
+                success_msg: 'Успешно потвърден имейл адрес.'
+            });
         }
-
+        
         res.render('users/verify', { title: 'Невалиден линк.', confirmed: false });
     },
 
@@ -100,8 +97,12 @@ module.exports = {
             if (!isOldSecret) {
                 const secret = await SecretCode.create({ email: user.email, code: uuid.v4() });
                 await sendVerificationEmail(user, secret);
-                req.flash('success_msg', 'Успешно изпратен имейл');
-                return res.render('users/verify', { title: 'Успешно изпратен имейл', confirmed: true, user });
+                return res.render('users/verify', {
+                    title: 'Успешно изпратен имейл',
+                    confirmed: true,
+                    user,
+                    success_msg: 'Успешно изпратен имейл'
+                });
             }
 
             return res.render('users/verify', { title: 'Невалиден линк.', confirmed: false });

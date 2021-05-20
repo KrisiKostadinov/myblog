@@ -15,6 +15,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const administrationRouter = require('./routes/administration');
 const postRouter = require('./routes/post');
+const projectAppsRouter = require('./routes/projectApps');
 
 require('./config/passport')(passport);
 
@@ -44,11 +45,9 @@ app.engine('.hbs', exphbs({
             return first === second ? options.fn(this) : options.inverse(this);
         },
         inc: function (number) {
-            console.log(number);
             return parseInt(number) + 1;
         },
         dec: function (number) {
-            console.log(number);
             return parseInt(number) - 1;
         },
         times: function (n, block) {
@@ -74,20 +73,23 @@ app.use(passport.session())
 
 app.use(flash());
 
+
+app.set('view engine', '.hbs');
+app.use("/public", express.static(__dirname + '/public'));
+
 app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error = req.flash('error');
+    console.log(res.locals);
     next();
 });
-
-app.set('view engine', '.hbs');
-app.use("/public", express.static(__dirname + '/public'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/administration', administrationRouter);
 app.use('/post', postRouter);
+app.use('/projects/apps', projectAppsRouter);
 app.use('*', (req, res) => res.render('404'));
 
 app.listen(process.env.PORT, () => console.log('Server listening on port: ' + process.env.PORT));

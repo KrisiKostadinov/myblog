@@ -1,0 +1,12 @@
+{{#each apps }}
+<div class="card" style="width: 18rem;">
+    <a href="/projects/{{this._id}}">
+        <img src="{{this.cover}}" class="card-img-top" alt="">
+    </a>
+    <div class="card-body">
+        <h5 class="card-title">{{ this.title }}</h5>
+        <p class="card-text">{{ this.subtitle }}</p>
+        <a href="/projects/{{this._id}}" class="btn btn-primary">Виж</a>
+    </div>
+</div>
+{{/each}}

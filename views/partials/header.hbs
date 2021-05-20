@@ -10,6 +10,16 @@
         <li class="nav-item">
           <a class="nav-link" href="/about">За мен <span class="sr-only"></span></a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="/projects" id="projectsDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Проекти
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="projectsDropdown">
+            <li><a class="dropdown-item" href="/projects/apps/all">Apps</a></li>
+            <li><a class="dropdown-item" href="/pens">Pens</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if isLoggedIn }}
