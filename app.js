@@ -16,6 +16,7 @@ const usersRouter = require('./routes/users');
 const administrationRouter = require('./routes/administration');
 const postRouter = require('./routes/post');
 const projectAppsRouter = require('./routes/projectApps');
+const commentAppRouter = require('./routes/comment');
 
 require('./config/passport')(passport);
 
@@ -90,6 +91,7 @@ app.use('/users', usersRouter);
 app.use('/administration', administrationRouter);
 app.use('/post', postRouter);
 app.use('/projects/apps', projectAppsRouter);
+app.use('/comment', commentAppRouter);
 app.use('*', (req, res) => res.render('404'));
 
 app.listen(process.env.PORT, () => console.log('Server listening on port: ' + process.env.PORT));

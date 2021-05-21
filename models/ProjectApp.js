@@ -20,7 +20,13 @@ const ProjectAppSchema = new Schema({
     createdOn: {
         type: Date,
         default: Date.now
-    }
+    },
+    comments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 });
 
 const ProjectApp = model('ProjectApp', ProjectAppSchema);

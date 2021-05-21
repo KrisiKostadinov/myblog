@@ -1,6 +1,6 @@
 <div class="mb-5">
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="col-lg-8 col-md-8 mx-auto">
             <h1 class="py-4">{{ app.title }}</h1>
             <span class="mr-4">Публикувано на: {{ app.createdOn }}</span>
             {{{ app.content }}}
@@ -13,12 +13,68 @@
             <button onclick="deleteApp(event)" class="btn btn-danger">Изтрии</button>
             {{/is}}
         </div>
+        <div class="col-lg-4 col-md-4 mx-auto mt-4">
+            {{#if isLoggedIn }}
+            <form onsubmit="submitComment(event)" class="row" action="/comment/create" method="POST">
+                <input class="form-control col-md-10" type="text" name="content" placeholder="Напишете коментар...">
+                <button type="submit" class="btn btn-primary col-md-2">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+            {{/if}}
+            <div id="comments" class="mt-4">
+                {{#each app.comments }}
+                <div id="{{this._id}}">
+                    <a href="#">{{this.author.username}}</a>
+                    <p>{{this.content}}</p>
+                    {{#if this.isMy }}
+                    <button onclick="deleteComment(event)" class="btn btn-danger">Изтрии</button>
+                    {{/if}}
+                </div>
+                {{else}}
+                <p class="text-center">Няма коментари</p>
+                {{/each}}
+            </div>
+        </div>
     </div>
 </div>
 
+
 <input type="hidden" id="id" value="{{app._id}}">
+<input type="hidden" id="currentUser" value="{{username}}">
+<input type="hidden" id="currentApp" value="{{app._id}}">
 
 <script>
+    function submitComment(event) {
+        event.preventDefault();
+        const comment = document.createElement('div');
+        comment.innerHTML = `<a href="${document.getElementById('currentUser').value}">${document.getElementById('currentUser').value}</a>
+        <p>${event.target.content.value}</p>
+        <button class="btn btn-danger">Изтрии</button>`;
+
+        fetch('/comment/create/' + document.getElementById('currentApp').value, {
+            method: 'POST',
+            body: JSON.stringify({ content: event.target.content.value }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(res => res.json())
+            .then((data) => {
+                comment.querySelector('button').addEventListener('click', deleteComment);
+                comment.setAttribute('id', data._id);
+                document.getElementById('comments').appendChild(comment);
+            });
+
+    }
+
+    function deleteComment(event) {
+        fetch('/comment/delete/' + event.target.parentElement.id + '/' + document.getElementById('id').value, {
+            method: 'DELETE'
+        })
+            .then(() => {
+                event.target.parentElement.remove();
+            });
+    }
+
     function deleteApp(event) {
         if (window.confirm('Сигурен ли си, че искаш да изтриеш проекта?')) {
             const id = document.getElementById('id').value;
