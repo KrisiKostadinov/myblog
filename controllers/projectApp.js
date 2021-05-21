@@ -1,4 +1,4 @@
-const { getAllProjectApps, createProjectApp } = require('../services/projectApp');
+const { getAllProjectApps, createProjectApp, getProjectById } = require('../services/projectApp');
 const cloudinary = require('cloudinary');
 
 module.exports = {
@@ -58,5 +58,15 @@ module.exports = {
         });
 
         res.render('projects/apps/all', { title: 'Проекти', apps });
+    },
+
+    async byId(req, res) {
+        const app = await getProjectById(req.params.id);
+
+        app.createdOn = new Date(app.createdOn).toLocaleDateString();
+
+        console.log(app);
+
+        res.render('projects/apps/details', { title: app.title, app });
     }
 }

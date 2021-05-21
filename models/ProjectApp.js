@@ -16,7 +16,11 @@ const ProjectAppSchema = new Schema({
         {
             type: String
         }
-    ]
+    ],
+    createdOn: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const ProjectApp = model('ProjectApp', ProjectAppSchema);

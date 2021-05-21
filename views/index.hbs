@@ -1,8 +1,8 @@
 {{> messages }}
-<div class="row">
+<div class="row mt-5">
+    {{> searchForm }}
     {{#each posts }}
     <div class="col-lg-8 col-md-10 mx-auto mt-5">
-        {{> searchForm }}
         <div class="post-preview mt-4">
             <a href="/post/details/{{this._id}}">
                 <h2 class="post-title">{{ this.title }}</h2>
